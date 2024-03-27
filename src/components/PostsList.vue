@@ -89,13 +89,13 @@ export default {
       return this.inactivePostsIDs.includes(id);
     },
 
-    togglePostBodyVisibility({ id }) {
-      if (this.isPostShowed(IdleDeadline)) {
+    togglePostBodyVisibility(post) {
+      if (this.isPostShowed(post)) {
         this.showedPostsIDs = this.showedPostsIDs.filter(
-          (showedID) => showedID !== id
+          (showedID) => showedID !== post.id
         );
       } else {
-        this.showedPostsIDs.push(id);
+        this.showedPostsIDs.push(post.id);
       }
     },
 
