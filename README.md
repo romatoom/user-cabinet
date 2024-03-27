@@ -1,24 +1,11 @@
 # user-cabinet
 
-## Project setup
+Тестовое задание
+https://drive.google.com/file/d/17SMHDuhBW6PIWqBTvPtN1liRSnXdWhg-/view
+
+## Установка и запуск локально в dev-режиме
+
 ```
 yarn install
-```
-
-### Compiles and hot-reloads for development
-```
 yarn serve
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
