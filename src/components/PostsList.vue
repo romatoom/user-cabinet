@@ -1,21 +1,36 @@
 <template>
-  <template v-if="!isPostLoading">
-    <div v-if="posts" class="posts-list">
-      <div v-for="post in posts" :key="post.id" class="post-item">
+  <template v-if="!loading">
+    <div v-if="postsExists" class="posts-list">
+      <div
+        v-for="post in posts"
+        :key="post.id"
+        class="post-item"
+        :class="{
+          inactive: isPostInactive(post),
+        }"
+      >
         <div class="post-id">{{ post.id }}</div>
 
         <div class="main-info">
-          <div class="post-title" @click="togglePostBodyVisibility(post.id)">
+          <div class="post-title" @click="togglePostBodyVisibility(post)">
             {{ post.title }}
           </div>
 
           <div class="post-author-id">ID автора: {{ post.userId }}</div>
 
-          <div v-show="isPostShowed(post.id)" class="post-body">
+          <div v-show="isPostShowed(post)" class="post-body">
             {{ post.body }}
           </div>
         </div>
+
+        <div class="delete-btn" @click="handleClickDeletePost(post)">
+          Удалить
+        </div>
       </div>
+    </div>
+
+    <div v-else-if="postsEmpty" class="data-container">
+      Нет записей для отображения
     </div>
 
     <div v-else class="data-container">Ошибка загрузки постов</div>
@@ -27,39 +42,72 @@
 </template>
 
 <script>
-import { getPosts } from "@/api/posts.js";
-
 export default {
   name: "PostsList",
 
+  props: {
+    posts: {
+      type: [Array, null],
+      required: true,
+    },
+
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+  },
+
+  computed: {
+    postsExists() {
+      return this.posts?.length > 0;
+    },
+
+    postsEmpty() {
+      return this.posts?.length === 0;
+    },
+  },
+
+  emits: {
+    "delete-post": (postID) => {
+      return typeof postID === "number" && postID > 0;
+    },
+  },
+
   data() {
     return {
-      posts: null,
-      isPostLoading: null,
       showedPostsIDs: [],
+      inactivePostsIDs: [],
     };
   },
 
-  async mounted() {
-    try {
-      this.isPostLoading = true;
-      this.posts = await getPosts();
-    } finally {
-      this.isPostLoading = false;
-    }
-  },
-
   methods: {
-    togglePostBodyVisibility(postID) {
-      if (this.isPostShowed(postID)) {
-        this.showedPostsIDs = this.showedPostsIDs.filter((id) => id !== postID);
+    isPostShowed({ id }) {
+      return this.showedPostsIDs.includes(id);
+    },
+
+    isPostInactive({ id }) {
+      return this.inactivePostsIDs.includes(id);
+    },
+
+    togglePostBodyVisibility({ id }) {
+      if (this.isPostShowed(IdleDeadline)) {
+        this.showedPostsIDs = this.showedPostsIDs.filter(
+          (showedID) => showedID !== id
+        );
       } else {
-        this.showedPostsIDs.push(postID);
+        this.showedPostsIDs.push(id);
       }
     },
 
-    isPostShowed(postID) {
-      return this.showedPostsIDs.includes(postID);
+    handleClickDeletePost({ id }) {
+      if (
+        this.isPostInactive(id) ||
+        !confirm("Действительно ли вы хотите удалить новость?")
+      )
+        return;
+
+      this.inactivePostsIDs.push(id);
+      this.$emit("delete-post", id);
     },
   },
 };
@@ -79,6 +127,15 @@ export default {
     flex-direction: row;
     align-items: center;
 
+    &.inactive {
+      background-color: var(--very-light);
+      pointer-events: none;
+
+      & .delete-btn {
+        cursor: none;
+      }
+    }
+
     & > div {
       padding: 20px;
     }
@@ -89,6 +146,8 @@ export default {
     }
 
     & .main-info {
+      width: 100%;
+
       & > .post-title {
         font-weight: bold;
         cursor: pointer;
@@ -105,6 +164,11 @@ export default {
       & > .post-body {
         margin-top: 20px;
       }
+    }
+
+    & > .delete-btn {
+      color: var(--danger);
+      cursor: pointer;
     }
   }
 

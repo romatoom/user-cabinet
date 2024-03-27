@@ -33,7 +33,7 @@ export default {
   & .page {
     margin-left: var(--side-bar-width);
     padding: 20px;
-    background-color: var(--page-bg-color);
+    background-color: var(--very-light);
     min-height: 100vh;
   }
 }
