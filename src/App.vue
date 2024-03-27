@@ -26,7 +26,7 @@ export default {
     left: 0;
     bottom: 0;
     width: var(--side-bar-width);
-    padding: 20px;
+    padding: 0;
     background-color: var(--sidebar-bg-color);
   }
 
