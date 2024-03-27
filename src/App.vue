@@ -18,6 +18,8 @@ export default {
 
 <style lang="scss" scoped>
 #app {
+  font-family: "Open Sans", sans-serif;
+
   & .sidebar {
     position: fixed;
     top: 0;
