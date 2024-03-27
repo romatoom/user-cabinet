@@ -1,0 +1,3 @@
+<template>
+  Все новости
+</template>

@@ -1,0 +1,3 @@
+<template>
+  Добавить запись
+</template>
