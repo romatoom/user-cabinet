@@ -31,8 +31,8 @@ export default {
   }
 
   & .page {
-    padding-left: 400px;
-    padding: 20px 20px 20px calc(var(--side-bar-width) + 20px);
+    margin-left: var(--side-bar-width);
+    padding: 20px;
     background-color: var(--page-bg-color);
     min-height: 100vh;
   }
