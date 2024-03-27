@@ -5,9 +5,15 @@
         <div class="post-id">{{ post.id }}</div>
 
         <div class="main-info">
-          <div class="post-title">{{ post.title }}</div>
-          <div class="post-author-id mb-20">ID автора: {{ post.userId }}</div>
-          <div class="post-body">{{ post.body }}</div>
+          <div class="post-title" @click="togglePostBodyVisibility(post.id)">
+            {{ post.title }}
+          </div>
+
+          <div class="post-author-id">ID автора: {{ post.userId }}</div>
+
+          <div v-show="isPostShowed(post.id)" class="post-body">
+            {{ post.body }}
+          </div>
         </div>
       </div>
     </div>
@@ -30,6 +36,7 @@ export default {
     return {
       posts: null,
       isPostLoading: null,
+      showedPostsIDs: [],
     };
   },
 
@@ -40,6 +47,20 @@ export default {
     } finally {
       this.isPostLoading = false;
     }
+  },
+
+  methods: {
+    togglePostBodyVisibility(postID) {
+      if (this.isPostShowed(postID)) {
+        this.showedPostsIDs = this.showedPostsIDs.filter((id) => id !== postID);
+      } else {
+        this.showedPostsIDs.push(postID);
+      }
+    },
+
+    isPostShowed(postID) {
+      return this.showedPostsIDs.includes(postID);
+    },
   },
 };
 </script>
@@ -62,17 +83,27 @@ export default {
       padding: 20px;
     }
 
-    & .main-info {
-      & > .post-id {
-        font-size: 20px;
-      }
+    & > .post-id {
+      font-size: 40px;
+      color: var(--light);
+    }
 
+    & .main-info {
       & > .post-title {
         font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary);
+        }
       }
 
       & > .post-author-id {
         color: var(--grey);
+      }
+
+      & > .post-body {
+        margin-top: 20px;
       }
     }
   }
