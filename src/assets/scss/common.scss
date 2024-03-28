@@ -13,7 +13,12 @@ body {
   margin-bottom: 20px;
 }
 
-.radio-box {
+.align-right {
+  align-self: flex-end;
+}
+
+.radio-box-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 5px;
 }

@@ -1,23 +1,25 @@
 <template>
   <h1 class="mb-20">Добавить запись</h1>
 
-  {{ sex }}
+  <div class="form">
+    <custom-input v-model="name" type="text" placeholder="Введите имя" />
 
-  <custom-input v-model="name" type="text" placeholder="Введите имя" />
+    <custom-input v-model="email" type="email" placeholder="Введите email" />
 
-  <custom-input v-model="email" type="email" placeholder="Введите email" />
+    <label>Пол</label>
+    <div class="radio-box-row">
+      <custom-radio v-model="sex" label="Мужской" value="Male" />
+      <custom-radio v-model="sex" label="Женский" value="Female" />
+    </div>
 
-  <custom-textarea v-model="message" placeholder="Введите сообщение" />
+    <custom-textarea v-model="message" placeholder="Введите сообщение" />
 
-  <custom-checkbox
-    v-model="confirm"
-    label="Согласен на обработку персональных данных"
-  />
+    <custom-checkbox
+      v-model="confirm"
+      label="Согласен на обработку персональных данных"
+    />
 
-  <div class="radio-box">
-    Пол
-    <custom-radio v-model="sex" label="Мужской" value="Male" />
-    <custom-radio v-model="sex" label="Женский" value="Female" />
+    <custom-button class="align-right"> Отправить </custom-button>
   </div>
 </template>
 
@@ -26,6 +28,7 @@ import CustomInput from "@/components/UI/CustomInput.vue";
 import CustomTextarea from "@/components/UI/CustomTextarea.vue";
 import CustomCheckbox from "@/components/UI/CustomCheckbox.vue";
 import CustomRadio from "@/components/UI/CustomRadio.vue";
+import CustomButton from "@/components/UI/CustomButton.vue";
 
 export default {
   components: {
@@ -33,6 +36,7 @@ export default {
     CustomTextarea,
     CustomCheckbox,
     CustomRadio,
+    CustomButton,
   },
 
   data() {
@@ -46,3 +50,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 50%;
+}
+</style>
