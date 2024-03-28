@@ -1,15 +1,27 @@
 <template>
-  <input type="checkbox" class="custom-checkbox" :checked="modelValue" />
-  <label @click="handleClick">{{ label }}</label>
+  <div class="custom-radio-container" @click="handleClick">
+    <input
+      type="radio"
+      class="custom-radio"
+      :checked="isChecked"
+      :value="value"
+    />
+    <label>{{ label }}</label>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "CustomCheckbox",
+  name: "CustomRadio",
 
   props: {
     modelValue: {
-      type: Boolean,
+      type: String,
+      required: true,
+    },
+
+    value: {
+      type: String,
       required: true,
     },
 
@@ -21,29 +33,35 @@ export default {
 
   emits: ["update:modelValue"],
 
+  computed: {
+    isChecked() {
+      return this.modelValue == this.value;
+    },
+  },
+
   methods: {
     handleClick() {
-      this.$emit("update:modelValue", !this.modelValue);
+      this.$emit("update:modelValue", this.value);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.custom-checkbox {
+.custom-radio {
   position: absolute;
   z-index: -1;
   opacity: 0;
 }
 
-.custom-checkbox + label {
+.custom-radio + label {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   user-select: none;
 }
 
-.custom-checkbox + label::before {
+.custom-radio + label::before {
   content: "";
   display: inline-block;
   width: 1em;
@@ -58,7 +76,7 @@ export default {
   background-size: 50% 50%;
 }
 
-.custom-checkbox:checked + label::before {
+.custom-radio:checked + label::before {
   border-color: var(--primary);
   background-color: var(--very-light);
   background-image: url("/public/icons/square.svg");

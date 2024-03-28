@@ -9,7 +9,11 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-
 .mb-20 {
   margin-bottom: 20px;
+}
+
+.radio-box {
+  display: flex;
+  flex-direction: column;
 }
