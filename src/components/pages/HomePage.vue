@@ -1,6 +1,6 @@
 <template>
   <h1 class="mb-20">Все новости</h1>
-  <PostsList
+  <posts-list
     :loading="isPostLoading"
     :posts="posts"
     @delete-post="handleDeletePost"
